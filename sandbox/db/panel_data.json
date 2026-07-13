@@ -41,22 +41,30 @@
     {
       "mxid": "@masoud:matrix.company.local",
       "isAdmin": true,
-      "isDeactivated": false
+      "isDeactivated": false,
+      "displayName": "Masoud",
+      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=masoud"
     },
     {
       "mxid": "@alice:matrix.company.local",
       "isAdmin": false,
-      "isDeactivated": false
+      "isDeactivated": false,
+      "displayName": "Alice",
+      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=alice"
     },
     {
       "mxid": "@bob:matrix.company.local",
       "isAdmin": false,
-      "isDeactivated": false
+      "isDeactivated": false,
+      "displayName": "Bob",
+      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=bob"
     },
     {
       "mxid": "@welcome:matrix.company.local",
       "isAdmin": false,
-      "isDeactivated": true
+      "isDeactivated": true,
+      "displayName": "Welcome",
+      "avatarUrl": "https://api.dicebear.com/7.x/bottts/svg?seed=welcome"
     }
   ],
   "auditLogs": [
@@ -185,5 +193,140 @@
     "count": 2,
     "federationSender": false,
     "basePort": 8083
-  }
+  },
+  "matrixRooms": [
+    {
+      "id": "!room1:matrix.company.local",
+      "name": "General Organization Chat",
+      "alias": "#general:matrix.company.local",
+      "topic": "Welcome to our central Matrix server! Let's collaborate.",
+      "creator": "@masoud:matrix.company.local",
+      "membersCount": 3,
+      "joinedMembers": [
+        {
+          "mxid": "@masoud:matrix.company.local",
+          "role": "Creator",
+          "powerLevel": 100
+        },
+        {
+          "mxid": "@alice:matrix.company.local",
+          "role": "Admin",
+          "powerLevel": 100
+        },
+        {
+          "mxid": "@bob:matrix.company.local",
+          "role": "Default",
+          "powerLevel": 0
+        }
+      ],
+      "version": "10",
+      "isFederated": true,
+      "isPublic": true,
+      "createdAt": "2026-07-12T12:00:00.000Z"
+    },
+    {
+      "id": "!room2:matrix.company.local",
+      "name": "Infrastructure & Security",
+      "alias": "#infra:matrix.company.local",
+      "topic": "Critical server updates, TLS reissues, and docker configurations discussion.",
+      "creator": "@masoud:matrix.company.local",
+      "membersCount": 2,
+      "joinedMembers": [
+        {
+          "mxid": "@masoud:matrix.company.local",
+          "role": "Creator",
+          "powerLevel": 100
+        },
+        {
+          "mxid": "@alice:matrix.company.local",
+          "role": "Moderator",
+          "powerLevel": 50
+        }
+      ],
+      "version": "10",
+      "isFederated": false,
+      "isPublic": false,
+      "createdAt": "2026-07-12T13:30:00.000Z"
+    },
+    {
+      "id": "!room3:matrix.company.local",
+      "name": "Marketing & Outreach",
+      "alias": "#marketing:matrix.company.local",
+      "topic": "Federated communications for campaign coordination.",
+      "creator": "@alice:matrix.company.local",
+      "membersCount": 1,
+      "joinedMembers": [
+        {
+          "mxid": "@alice:matrix.company.local",
+          "role": "Creator",
+          "powerLevel": 100
+        }
+      ],
+      "version": "11",
+      "isFederated": true,
+      "isPublic": true,
+      "createdAt": "2026-07-13T01:15:00.000Z"
+    }
+  ],
+  "matrixMedia": [
+    {
+      "id": "mxc://matrix.company.local/img9988ff",
+      "fileName": "corporate_logo.png",
+      "fileSize": 1542000,
+      "mimeType": "image/png",
+      "uploadedBy": "@masoud:matrix.company.local",
+      "uploadedAt": "2026-07-12T12:10:00.000Z",
+      "isCached": false
+    },
+    {
+      "id": "mxc://matrix.company.local/doc1122xx",
+      "fileName": "onboarding_guide.pdf",
+      "fileSize": 4521000,
+      "mimeType": "application/pdf",
+      "uploadedBy": "@alice:matrix.company.local",
+      "uploadedAt": "2026-07-12T14:05:00.000Z",
+      "isCached": false
+    },
+    {
+      "id": "mxc://matrix.org/avatar8822",
+      "fileName": "remote_alice_avatar.jpg",
+      "fileSize": 35000,
+      "mimeType": "image/jpeg",
+      "uploadedBy": "@alice:matrix.company.local",
+      "uploadedAt": "2026-07-12T14:10:00.000Z",
+      "isCached": true
+    },
+    {
+      "id": "mxc://matrix.company.local/media999",
+      "fileName": "meeting_recording.mp4",
+      "fileSize": 48200000,
+      "mimeType": "video/mp4",
+      "uploadedBy": "@bob:matrix.company.local",
+      "uploadedAt": "2026-07-13T02:00:00.000Z",
+      "isCached": false
+    }
+  ],
+  "registrationTokens": [
+    {
+      "token": "ORG-STAFF-PROMO-2026",
+      "usesAllowed": 50,
+      "usesCount": 12,
+      "expiryTime": "2026-12-31T23:59:59.000Z",
+      "isActive": true
+    },
+    {
+      "token": "INFRA-DEV-ROOT-KEY",
+      "usesAllowed": 5,
+      "usesCount": 5,
+      "expiryTime": "2026-08-15T00:00:00.000Z",
+      "isActive": false
+    },
+    {
+      "token": "TEMP-GUEST-TOKEN",
+      "usesAllowed": 1,
+      "usesCount": 0,
+      "expiryTime": "2026-07-20T12:00:00.000Z",
+      "isActive": true
+    }
+  ]
 }

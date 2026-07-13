@@ -12,7 +12,8 @@ import {
   Database, 
   Terminal, 
   BarChart3, 
-  LogOut 
+  LogOut,
+  Users
 } from 'lucide-react';
 
 interface SpatialDockProps {
@@ -26,6 +27,7 @@ export default function SpatialDock({ activeView, onViewChange, onLogout, userRo
   const navItems = [
     { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, color: 'text-indigo-400' },
     { id: 'config', label: 'Homeserver', icon: Settings, color: 'text-purple-400' },
+    { id: 'admin', label: 'Matrix Admin', icon: Users, color: 'text-pink-400' },
     { id: 'video', label: 'Media & Call', icon: Video, color: 'text-amber-400' },
     { id: 'security', label: 'Security & Auth', icon: ShieldCheck, color: 'text-emerald-400' },
     { id: 'backups', label: 'Archiving', icon: Database, color: 'text-blue-400' },

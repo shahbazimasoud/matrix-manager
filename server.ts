@@ -314,7 +314,99 @@ initializeSandbox();
 // -------------------------------------------------------------
 function readDb() {
   const content = readSandboxFile("/db/panel_data.json", "{}");
-  return JSON.parse(content);
+  const data = JSON.parse(content);
+  
+  let updated = false;
+  if (!data.matrixRooms) {
+    data.matrixRooms = [
+      {
+        id: "!room1:matrix.company.local",
+        name: "General Organization Chat",
+        alias: "#general:matrix.company.local",
+        topic: "Welcome to our central Matrix server! Let's collaborate.",
+        creator: "@masoud:matrix.company.local",
+        membersCount: 3,
+        joinedMembers: [
+          { mxid: "@masoud:matrix.company.local", role: "Creator", powerLevel: 100 },
+          { mxid: "@alice:matrix.company.local", role: "Admin", powerLevel: 100 },
+          { mxid: "@bob:matrix.company.local", role: "Default", powerLevel: 0 }
+        ],
+        version: "10",
+        isFederated: true,
+        isPublic: true,
+        createdAt: "2026-07-12T12:00:00.000Z"
+      },
+      {
+        id: "!room2:matrix.company.local",
+        name: "Infrastructure & Security",
+        alias: "#infra:matrix.company.local",
+        topic: "Critical server updates, TLS reissues, and docker configurations discussion.",
+        creator: "@masoud:matrix.company.local",
+        membersCount: 2,
+        joinedMembers: [
+          { mxid: "@masoud:matrix.company.local", role: "Creator", powerLevel: 100 },
+          { mxid: "@alice:matrix.company.local", role: "Moderator", powerLevel: 50 }
+        ],
+        version: "10",
+        isFederated: false,
+        isPublic: false,
+        createdAt: "2026-07-12T13:30:00.000Z"
+      },
+      {
+        id: "!room3:matrix.company.local",
+        name: "Marketing & Outreach",
+        alias: "#marketing:matrix.company.local",
+        topic: "Federated communications for campaign coordination.",
+        creator: "@alice:matrix.company.local",
+        membersCount: 1,
+        joinedMembers: [
+          { mxid: "@alice:matrix.company.local", role: "Creator", powerLevel: 100 }
+        ],
+        version: "11",
+        isFederated: true,
+        isPublic: true,
+        createdAt: "2026-07-13T01:15:00.000Z"
+      }
+    ];
+    updated = true;
+  }
+  
+  if (!data.matrixMedia) {
+    data.matrixMedia = [
+      { id: "mxc://matrix.company.local/img9988ff", fileName: "corporate_logo.png", fileSize: 1542000, mimeType: "image/png", uploadedBy: "@masoud:matrix.company.local", uploadedAt: "2026-07-12T12:10:00.000Z", isCached: false },
+      { id: "mxc://matrix.company.local/doc1122xx", fileName: "onboarding_guide.pdf", fileSize: 4521000, mimeType: "application/pdf", uploadedBy: "@alice:matrix.company.local", uploadedAt: "2026-07-12T14:05:00.000Z", isCached: false },
+      { id: "mxc://matrix.org/avatar8822", fileName: "remote_alice_avatar.jpg", fileSize: 35000, mimeType: "image/jpeg", uploadedBy: "@alice:matrix.company.local", uploadedAt: "2026-07-12T14:10:00.000Z", isCached: true },
+      { id: "mxc://matrix.company.local/media999", fileName: "meeting_recording.mp4", fileSize: 48200000, mimeType: "video/mp4", uploadedBy: "@bob:matrix.company.local", uploadedAt: "2026-07-13T02:00:00.000Z", isCached: false }
+    ];
+    updated = true;
+  }
+  
+  if (!data.registrationTokens) {
+    data.registrationTokens = [
+      { token: "ORG-STAFF-PROMO-2026", usesAllowed: 50, usesCount: 12, expiryTime: "2026-12-31T23:59:59.000Z", isActive: true },
+      { token: "INFRA-DEV-ROOT-KEY", usesAllowed: 5, usesCount: 5, expiryTime: "2026-08-15T00:00:00.000Z", isActive: false },
+      { token: "TEMP-GUEST-TOKEN", usesAllowed: 1, usesCount: 0, expiryTime: "2026-07-20T12:00:00.000Z", isActive: true }
+    ];
+    updated = true;
+  }
+
+  if (data.matrixUsers && data.matrixUsers.length > 0 && !data.matrixUsers[0].displayName) {
+    data.matrixUsers = data.matrixUsers.map((mu: any) => {
+      const username = mu.mxid.split(":")[0].replace("@", "");
+      return {
+        ...mu,
+        displayName: username.charAt(0).toUpperCase() + username.slice(1),
+        avatarUrl: `https://api.dicebear.com/7.x/bottts/svg?seed=${username}`
+      };
+    });
+    updated = true;
+  }
+
+  if (updated) {
+    writeSandboxFile("/db/panel_data.json", JSON.stringify(data, null, 2));
+  }
+
+  return data;
 }
 
 function writeDb(data: any) {
@@ -588,6 +680,278 @@ app.post("/api/matrix/users/reactivate", authenticateToken, checkPermission(["Ow
   writeDb(db);
 
   res.json(user);
+});
+
+// -------------------------------------------------------------
+// Matrix Rooms Management (Ketesa features)
+// -------------------------------------------------------------
+app.get("/api/matrix/rooms", authenticateToken, (req, res) => {
+  const db = readDb();
+  res.json(db.matrixRooms || []);
+});
+
+app.post("/api/matrix/rooms/create", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { name, alias, topic, isPublic, isFederated } = req.body;
+  if (!name) return res.status(400).json({ error: "Room name is required" });
+
+  const db = readDb();
+  const confRaw = readSandboxFile("/etc/matrix-stack.conf", "HS_DOMAIN=matrix.company.local");
+  const hsDomainMatch = confRaw.match(/^HS_DOMAIN=(.+)$/m);
+  const hsDomain = hsDomainMatch ? hsDomainMatch[1] : "matrix.company.local";
+
+  const cleanAlias = alias ? (alias.startsWith("#") ? alias : `#${alias}`) : undefined;
+  const fullAlias = cleanAlias ? (cleanAlias.includes(":") ? cleanAlias : `${cleanAlias}:${hsDomain}`) : undefined;
+
+  const newRoomId = `!room-${Date.now()}:${hsDomain}`;
+  const newRoom = {
+    id: newRoomId,
+    name,
+    alias: fullAlias,
+    topic: topic || "",
+    creator: `@${req.user.username}:${hsDomain}`,
+    membersCount: 1,
+    joinedMembers: [
+      { mxid: `@${req.user.username}:${hsDomain}`, role: "Creator", powerLevel: 100 }
+    ],
+    version: "10",
+    isFederated: !!isFederated,
+    isPublic: !!isPublic,
+    createdAt: new Date().toISOString()
+  };
+
+  if (!db.matrixRooms) db.matrixRooms = [];
+  db.matrixRooms.push(newRoom);
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Create Matrix Room",
+    target: name,
+    status: "success",
+    details: `Created new Matrix room with alias ${fullAlias || "none"} (ID: ${newRoomId})`
+  });
+  writeDb(db);
+
+  res.status(201).json(newRoom);
+});
+
+app.post("/api/matrix/rooms/delete", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { roomId, purge, sendMessage, messageText } = req.body;
+  if (!roomId) return res.status(400).json({ error: "Room ID is required" });
+
+  const db = readDb();
+  const roomIndex = (db.matrixRooms || []).findIndex((r: any) => r.id === roomId);
+  if (roomIndex === -1) return res.status(404).json({ error: "Room not found" });
+
+  const room = db.matrixRooms[roomIndex];
+  db.matrixRooms.splice(roomIndex, 1);
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Shutdown Matrix Room",
+    target: room.name,
+    status: "success",
+    details: `Shutdown room ${roomId}. Purged: ${!!purge}. Message sent: ${!!sendMessage}`
+  });
+  writeDb(db);
+
+  res.json({ message: "Room shutdown and deleted successfully" });
+});
+
+app.post("/api/matrix/rooms/members/kick", authenticateToken, checkPermission(["Owner", "Super Admin", "Moderator"]), (req, res) => {
+  const { roomId, mxid } = req.body;
+  if (!roomId || !mxid) return res.status(400).json({ error: "Room ID and MXID are required" });
+
+  const db = readDb();
+  const room = (db.matrixRooms || []).find((r: any) => r.id === roomId);
+  if (!room) return res.status(404).json({ error: "Room not found" });
+
+  const memberIndex = room.joinedMembers.findIndex((m: any) => m.mxid === mxid);
+  if (memberIndex === -1) return res.status(404).json({ error: "Member not found in this room" });
+
+  room.joinedMembers.splice(memberIndex, 1);
+  room.membersCount = room.joinedMembers.length;
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Kick Room Member",
+    target: mxid,
+    status: "success",
+    details: `Kicked user ${mxid} from room: ${room.name}`
+  });
+  writeDb(db);
+
+  res.json({ success: true, room });
+});
+
+// -------------------------------------------------------------
+// Matrix Media Cleanup (Ketesa features)
+// -------------------------------------------------------------
+app.get("/api/matrix/media", authenticateToken, (req, res) => {
+  const db = readDb();
+  res.json(db.matrixMedia || []);
+});
+
+app.post("/api/matrix/media/delete", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { mediaId } = req.body;
+  if (!mediaId) return res.status(400).json({ error: "Media MXC ID is required" });
+
+  const db = readDb();
+  const mediaIndex = (db.matrixMedia || []).findIndex((m: any) => m.id === mediaId);
+  if (mediaIndex === -1) return res.status(404).json({ error: "Media not found" });
+
+  const media = db.matrixMedia[mediaIndex];
+  db.matrixMedia.splice(mediaIndex, 1);
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Purge Media File",
+    target: mediaId,
+    status: "success",
+    details: `Permanently purged file ${media.fileName || "unnamed"} (${(media.fileSize / 1024 / 1024).toFixed(2)} MB)`
+  });
+  writeDb(db);
+
+  res.json({ message: "Media purged successfully" });
+});
+
+app.post("/api/matrix/media/cleanup", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { type, days, domain } = req.body;
+  const db = readDb();
+
+  let purgedCount = 0;
+  let purgedSize = 0;
+
+  if (!db.matrixMedia) db.matrixMedia = [];
+
+  if (type === "remote_cache") {
+    db.matrixMedia = db.matrixMedia.filter((m: any) => {
+      if (m.isCached) {
+        purgedCount++;
+        purgedSize += m.fileSize;
+        return false;
+      }
+      return true;
+    });
+    writeDb(db);
+  } else if (type === "by_age") {
+    const ageLimitMs = (days || 30) * 24 * 60 * 60 * 1000;
+    const now = Date.now();
+    db.matrixMedia = db.matrixMedia.filter((m: any) => {
+      const uploadTime = new Date(m.uploadedAt).getTime();
+      if (now - uploadTime > ageLimitMs) {
+        purgedCount++;
+        purgedSize += m.fileSize;
+        return false;
+      }
+      return true;
+    });
+    writeDb(db);
+  } else if (type === "by_domain") {
+    if (!domain) return res.status(400).json({ error: "Domain parameter is required" });
+    db.matrixMedia = db.matrixMedia.filter((m: any) => {
+      if (m.id.includes(domain)) {
+        purgedCount++;
+        purgedSize += m.fileSize;
+        return false;
+      }
+      return true;
+    });
+    writeDb(db);
+  }
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Bulk Media Cleanup",
+    target: type,
+    status: "success",
+    details: `Cleaned up ${purgedCount} media items, reclaiming ${(purgedSize / 1024 / 1024).toFixed(2)} MB of storage.`
+  });
+  writeDb(db);
+
+  res.json({ success: true, purgedCount, reclaimedSizeMB: (purgedSize / 1024 / 1024).toFixed(2) });
+});
+
+// -------------------------------------------------------------
+// Matrix Registration Tokens (Ketesa features)
+// -------------------------------------------------------------
+app.get("/api/matrix/tokens", authenticateToken, (req, res) => {
+  const db = readDb();
+  res.json(db.registrationTokens || []);
+});
+
+app.post("/api/matrix/tokens/create", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { token, usesAllowed, expiryTime } = req.body;
+  if (!token) return res.status(400).json({ error: "Token string is required" });
+
+  const db = readDb();
+  if (!db.registrationTokens) db.registrationTokens = [];
+  
+  if (db.registrationTokens.find((t: any) => t.token === token)) {
+    return res.status(400).json({ error: "Token already exists" });
+  }
+
+  const newToken = {
+    token,
+    usesAllowed: usesAllowed ? parseInt(usesAllowed) : undefined,
+    usesCount: 0,
+    expiryTime: expiryTime || undefined,
+    isActive: true
+  };
+
+  db.registrationTokens.push(newToken);
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Create Registration Token",
+    target: token,
+    status: "success",
+    details: `Generated registration token. Limit: ${usesAllowed || "Unlimited"}, Expiry: ${expiryTime || "Never"}`
+  });
+  writeDb(db);
+
+  res.status(201).json(newToken);
+});
+
+app.post("/api/matrix/tokens/delete", authenticateToken, checkPermission(["Owner", "Super Admin"]), (req, res) => {
+  const { token } = req.body;
+  if (!token) return res.status(400).json({ error: "Token string is required" });
+
+  const db = readDb();
+  const tokenIndex = (db.registrationTokens || []).findIndex((t: any) => t.token === token);
+  if (tokenIndex === -1) return res.status(404).json({ error: "Token not found" });
+
+  db.registrationTokens.splice(tokenIndex, 1);
+  writeDb(db);
+
+  db.auditLogs.unshift({
+    id: `log-${Date.now()}`,
+    timestamp: new Date().toISOString(),
+    username: req.user.username,
+    action: "Revoke Registration Token",
+    target: token,
+    status: "success",
+    details: `Permanently revoked registration token ${token}`
+  });
+  writeDb(db);
+
+  res.json({ message: "Token deleted successfully" });
 });
 
 // Configurations API

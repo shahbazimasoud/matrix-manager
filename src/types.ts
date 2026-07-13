@@ -52,6 +52,46 @@ export interface MatrixUser {
   mxid: string;
   isAdmin: boolean;
   isDeactivated: boolean;
+  displayName?: string;
+  avatarUrl?: string;
+}
+
+export interface RoomMember {
+  mxid: string;
+  role: 'Creator' | 'Admin' | 'Moderator' | 'Default';
+  powerLevel: number;
+}
+
+export interface MatrixRoom {
+  id: string;
+  name: string;
+  alias?: string;
+  topic?: string;
+  creator: string;
+  membersCount: number;
+  joinedMembers: RoomMember[];
+  version: string;
+  isFederated: boolean;
+  isPublic: boolean;
+  createdAt: string;
+}
+
+export interface MatrixMedia {
+  id: string;
+  fileName?: string;
+  fileSize: number;
+  mimeType: string;
+  uploadedBy: string;
+  uploadedAt: string;
+  isCached: boolean;
+}
+
+export interface RegistrationToken {
+  token: string;
+  usesAllowed?: number;
+  usesCount: number;
+  expiryTime?: string;
+  isActive: boolean;
 }
 
 export interface AuditLog {

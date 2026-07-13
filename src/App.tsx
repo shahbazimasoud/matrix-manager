@@ -37,6 +37,7 @@ import MetricCard from './components/MetricCard';
 import TerminalPanel from './components/TerminalPanel';
 import ConfigForms from './components/ConfigForms';
 import ReportingPanel from './components/ReportingPanel';
+import KetesaAdmin from './components/KetesaAdmin';
 import { SystemStats, ServiceState, PanelUser, AuditLog, BackupItem, UndoItem, MatrixConfig, LDAPConfig, MatrixUser } from './types';
 
 // Translation Dictionary for Persian (Default) & English
@@ -868,6 +869,16 @@ export default function App() {
                 onDeactivateUser={handleDeactivateMatrixUser}
                 onReactivateUser={handleReactivateMatrixUser}
                 userRole={currentUser?.role || 'Viewer'}
+              />
+            )}
+
+            {/* VIEW - KETESA ADMIN PANEL */}
+            {activeView === 'admin' && (
+              <KetesaAdmin
+                lang={lang}
+                authToken={authToken}
+                currentUser={currentUser}
+                showToast={showToast}
               />
             )}
 
