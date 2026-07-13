@@ -274,7 +274,7 @@ export default function App() {
         // Sync workers on UI from config
         setServices(prev => prev.map(s => {
           if (s.id === 'redis') {
-            return { ...s, status: data.workers.enabled ? 'active' : 'inactive' };
+            return { ...s, status: data.workers?.enabled ? 'active' : 'inactive' };
           }
           return s;
         }));
@@ -641,10 +641,6 @@ export default function App() {
                 {t.loginBtn}
               </button>
             </form>
-
-            <div className="text-center text-[10px] text-slate-500 mt-6 font-mono">
-              admin / admin1234 (Owner) | masoud / masoud1234 (Super Admin)
-            </div>
           </div>
         </div>
       ) : (
