@@ -60,12 +60,12 @@ fi
 echo -e "\n${YELLOW}>>> Please provide the network and administrative configurations below:${NC}\n"
 
 # Domain or IP
-read -p "Enter Domain Name or Public IP for this Admin Panel [Default: localhost]: " PANEL_DOMAIN
+read -p "Enter Domain Name or Public IP for this Admin Panel [Default: localhost]: " PANEL_DOMAIN < /dev/tty
 PANEL_DOMAIN=${PANEL_DOMAIN:-localhost}
 
 # Port
 while true; do
-  read -p "Enter Port to run the Admin Panel on [Default: 3000]: " PANEL_PORT
+  read -p "Enter Port to run the Admin Panel on [Default: 3000]: " PANEL_PORT < /dev/tty
   PANEL_PORT=${PANEL_PORT:-3000}
   if [[ "$PANEL_PORT" =~ ^[0-9]+$ ]] && [ "$PANEL_PORT" -ge 1 ] && [ "$PANEL_PORT" -le 65535 ]; then
     break
@@ -76,7 +76,7 @@ done
 
 # Owner Username
 while true; do
-  read -p "Enter Initial Owner Username [Default: admin]: " OWNER_USER
+  read -p "Enter Initial Owner Username [Default: admin]: " OWNER_USER < /dev/tty
   OWNER_USER=${OWNER_USER:-admin}
   if [[ "$OWNER_USER" =~ ^[a-zA-Z0-9_-]+$ ]]; then
     break
@@ -87,7 +87,7 @@ done
 
 # Owner Email
 while true; do
-  read -p "Enter Initial Owner Email Address [Default: admin@company.local]: " OWNER_EMAIL
+  read -p "Enter Initial Owner Email Address [Default: admin@company.local]: " OWNER_EMAIL < /dev/tty
   OWNER_EMAIL=${OWNER_EMAIL:-admin@company.local}
   if [[ "$OWNER_EMAIL" =~ ^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$ ]]; then
     break
@@ -98,9 +98,9 @@ done
 
 # Owner Password
 while true; do
-  read -s -p "Enter Secure Password for Owner ($OWNER_USER) [min 6 chars]: " OWNER_PASS
+  read -s -p "Enter Secure Password for Owner ($OWNER_USER) [min 6 chars]: " OWNER_PASS < /dev/tty
   echo ""
-  read -s -p "Confirm Secure Password: " OWNER_PASS_CONFIRM
+  read -s -p "Confirm Secure Password: " OWNER_PASS_CONFIRM < /dev/tty
   echo ""
   
   if [ ${#OWNER_PASS} -lt 6 ]; then
