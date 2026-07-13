@@ -64,6 +64,7 @@ fi
 echo -e "\n${YELLOW}>>> Please provide the network and administrative configurations below:${NC}\n"
 
 # Domain or IP
+echo -e "${BLUE}ℹ️  Note: The Admin Panel domain should be different from your Matrix homeserver domain (e.g. matrix.kheilisabz.local) and Element Web domain (e.g. matrixapp.kheilisabz.local) to avoid Nginx domain conflicts.${NC}"
 read -p "Enter Domain Name or Public IP for this Admin Panel [Default: localhost]: " PANEL_DOMAIN < /dev/tty
 PANEL_DOMAIN=${PANEL_DOMAIN:-localhost}
 
@@ -423,6 +424,57 @@ log_info "Enabling and booting Matrix Manager Panel daemon..."
 systemctl daemon-reload
 systemctl enable matrix-manager
 systemctl restart matrix-manager
+
+# ------------------------------------------------------------------------------
+# 5.5 Nginx Routing Integration & Conflict Resolution
+# ------------------------------------------------------------------------------
+if [ -d "/etc/nginx" ]; then
+  log_step "Integrating Matrix Manager with Nginx proxy & resolving default server conflicts..."
+  
+  # Ensure Nginx default site is disabled to prevent "Welcome to nginx!" hijacking on port 80
+  if [ -f "/etc/nginx/sites-enabled/default" ]; then
+    log_info "Removing default Nginx site link to prevent 'Welcome to nginx!' page hijack..."
+    rm -f "/etc/nginx/sites-enabled/default"
+  fi
+
+  # Create an Nginx site file for the admin panel to allow proxying PANEL_DOMAIN to PANEL_PORT
+  if [ "$PANEL_DOMAIN" != "localhost" ] && [ "$PANEL_DOMAIN" != "127.0.0.1" ] && [ -n "$PANEL_DOMAIN" ]; then
+    log_info "Creating reverse proxy config for $PANEL_DOMAIN in Nginx..."
+    NGINX_CONF_PATH="/etc/nginx/sites-available/matrix-manager.conf"
+    cat <<'EOF' > "$NGINX_CONF_PATH"
+server {
+    listen 80;
+    server_name $PANEL_DOMAIN;
+
+    client_max_body_size 50M;
+
+    location / {
+        proxy_pass http://127.0.0.1:$PANEL_PORT;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}
+EOF
+    # Inject variables dynamically into the template since we used single quotes to prevent escaping issues
+    sed -i "s/\$PANEL_DOMAIN/$PANEL_DOMAIN/g" "$NGINX_CONF_PATH"
+    sed -i "s/\$PANEL_PORT/$PANEL_PORT/g" "$NGINX_CONF_PATH"
+    
+    ln -sf "$NGINX_CONF_PATH" "/etc/nginx/sites-enabled/matrix-manager.conf"
+  fi
+
+  # Test Nginx and reload to apply fixes
+  if command -v nginx &>/dev/null; then
+    log_info "Validating and reloading Nginx service..."
+    if nginx -t &>/dev/null; then
+      systemctl reload nginx || systemctl restart nginx || log_warning "Failed to restart Nginx."
+      log_success "Nginx successfully reloaded!"
+    else
+      log_warning "Nginx configuration test failed. Retaining current active state is recommended."
+    fi
+  fi
+fi
 
 # ------------------------------------------------------------------------------
 # 6. Installation Report Summary

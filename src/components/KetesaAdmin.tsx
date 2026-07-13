@@ -1209,7 +1209,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
   return (
     <div className={`space-y-6 ${isRtl ? 'rtl' : 'ltr'}`} id="ketesa-container">
       {/* Tab Navigation Dock */}
-      <div className="flex flex-wrap gap-2 p-1.5 bg-slate-900/40 backdrop-blur-md rounded-xl border border-white/5 max-w-max">
+      <div className="flex flex-wrap gap-2 p-1.5 bg-black/40 backdrop-blur-md rounded-xl border border-white/5 max-w-max">
         <button
           onClick={() => setActiveTab('users')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
@@ -1306,7 +1306,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             className="space-y-4"
           >
             {/* Search, Filter & Actions rail */}
-            <div className="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center bg-slate-900/25 p-4 rounded-xl border border-white/5">
+            <div className="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center bg-black/25 p-4 rounded-xl border border-white/5">
               <div className="flex flex-1 flex-wrap items-center gap-3">
                 <div className="relative flex-1 min-w-[240px]">
                   <Search className={`absolute top-3 ${isRtl ? 'left-3' : 'right-3'} h-4 w-4 text-gray-500`} />
@@ -1315,11 +1315,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
                     placeholder={t.searchUsers}
-                    className="w-full bg-slate-950/60 border border-white/5 hover:border-indigo-500/30 focus:border-indigo-500/80 rounded-lg py-2 px-4 text-sm font-mono text-gray-200 outline-none transition-all duration-300"
+                    className="w-full bg-black/40 border border-white/5 hover:border-indigo-500/30 focus:border-indigo-500/80 rounded-lg py-2 px-4 text-sm font-mono text-gray-200 outline-none transition-all duration-300"
                   />
                 </div>
 
-                <div className="flex p-0.5 bg-slate-950/40 rounded-lg border border-white/5 text-xs font-medium">
+                <div className="flex p-0.5 bg-black/40 rounded-lg border border-white/5 text-xs font-medium">
                   {(['all', 'admins', 'active', 'deactivated'] as const).map(f => (
                     <button
                       key={f}
@@ -1352,11 +1352,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             </div>
 
             {/* Users Table */}
-            <div className="bg-slate-900/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
+            <div className="bg-black/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-white/5 bg-slate-950/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
+                    <tr className="border-b border-white/5 bg-black/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
                       <th className="py-3 px-4 text-center w-14">#</th>
                       <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.mxidLabel}</th>
                       <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.displayNameLabel}</th>
@@ -1455,7 +1455,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             className="space-y-4"
           >
             {/* Search, Filter & Actions rail */}
-            <div className="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center bg-slate-900/25 p-4 rounded-xl border border-white/5">
+            <div className="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center bg-black/25 p-4 rounded-xl border border-white/5">
               <div className="flex flex-1 flex-wrap items-center gap-3">
                 <div className="relative flex-1 min-w-[240px]">
                   <Search className={`absolute top-3 ${isRtl ? 'left-3' : 'right-3'} h-4 w-4 text-gray-500`} />
@@ -1464,11 +1464,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     value={roomSearch}
                     onChange={(e) => setRoomSearch(e.target.value)}
                     placeholder={t.searchRooms}
-                    className="w-full bg-slate-950/60 border border-white/5 hover:border-purple-500/30 focus:border-purple-500/80 rounded-lg py-2 px-4 text-sm font-mono text-gray-200 outline-none transition-all duration-300"
+                    className="w-full bg-black/40 border border-white/5 hover:border-purple-500/30 focus:border-purple-500/80 rounded-lg py-2 px-4 text-sm font-mono text-gray-200 outline-none transition-all duration-300"
                   />
                 </div>
 
-                <div className="flex p-0.5 bg-slate-950/40 rounded-lg border border-white/5 text-xs font-medium flex-wrap gap-1">
+                <div className="flex p-0.5 bg-black/40 rounded-lg border border-white/5 text-xs font-medium flex-wrap gap-1">
                   {(['all', 'public', 'private', 'federated', 'local'] as const).map(f => (
                     <button
                       key={f}
@@ -1504,7 +1504,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             {/* Rooms Cards Grid / List */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
               {filteredRooms.length === 0 ? (
-                <div className="col-span-full bg-slate-900/15 border border-white/5 rounded-xl py-12 text-center text-gray-500 font-mono">
+                <div className="col-span-full bg-black/20 border border-white/5 rounded-xl py-12 text-center text-gray-500 font-mono">
                   No rooms matched your parameters.
                 </div>
               ) : (
@@ -1613,7 +1613,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
           >
             {/* Quick Analytics & Stats widgets */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="bg-slate-900/35 border border-white/5 rounded-xl p-5 flex items-center gap-4">
+              <div className="bg-black/40 border border-white/5 rounded-xl p-5 flex items-center gap-4">
                 <div className="p-3 bg-amber-500/10 rounded-lg text-amber-400 border border-amber-500/15">
                   <Sliders className="h-6 w-6" />
                 </div>
@@ -1623,7 +1623,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                 </div>
               </div>
 
-              <div className="bg-slate-900/35 border border-white/5 rounded-xl p-5 flex items-center gap-4">
+              <div className="bg-black/40 border border-white/5 rounded-xl p-5 flex items-center gap-4">
                 <div className="p-3 bg-orange-500/10 rounded-lg text-orange-400 border border-orange-500/15">
                   <HardDrive className="h-6 w-6" />
                 </div>
@@ -1633,7 +1633,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                 </div>
               </div>
 
-              <div className="bg-slate-900/35 border border-white/5 rounded-xl p-5 flex items-center gap-4">
+              <div className="bg-black/40 border border-white/5 rounded-xl p-5 flex items-center gap-4">
                 <div className="p-3 bg-indigo-500/10 rounded-lg text-indigo-400 border border-indigo-500/15">
                   <FolderSync className="h-6 w-6" />
                 </div>
@@ -1646,7 +1646,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
             {/* Bulk actions panel */}
             {hasWriteAccess && (
-              <div className="bg-slate-900/20 border border-white/5 rounded-xl p-5 space-y-4">
+              <div className="bg-black/20 border border-white/5 rounded-xl p-5 space-y-4">
                 <h4 className="font-semibold text-gray-200 text-sm flex items-center gap-2 border-b border-white/5 pb-2">
                   <ShieldAlert className="h-4 w-4 text-amber-400" />
                   <span>Interactive Cleanup Controls</span>
@@ -1654,7 +1654,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-4 text-sm">
                   {/* Option 1: purge remote cache */}
-                  <div className="bg-slate-950/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
+                  <div className="bg-black/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
                     <div>
                       <h5 className="font-medium text-amber-300 mb-1">{t.cleanupCacheBtn}</h5>
                       <p className="text-xs text-gray-400 mb-4">Cleans up remote files that haven't been accessed in a while from Synapse cache storage.</p>
@@ -1668,7 +1668,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                   </div>
 
                   {/* Option 2: Purge by Age */}
-                  <div className="bg-slate-950/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
+                  <div className="bg-black/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
                     <div>
                       <h5 className="font-medium text-orange-300 mb-1">{t.cleanupAgeBtn}</h5>
                       <p className="text-xs text-gray-400 mb-3">Removes all media uploads (both local & remote cache) that are older than specified age.</p>
@@ -1691,7 +1691,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                   </div>
 
                   {/* Option 3: Purge by Domain */}
-                  <div className="bg-slate-950/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
+                  <div className="bg-black/40 border border-white/5 p-4 rounded-xl flex flex-col justify-between">
                     <div>
                       <h5 className="font-medium text-red-300 mb-1">{t.cleanupDomainBtn}</h5>
                       <p className="text-xs text-gray-400 mb-3">Purges all federated media cached from a specific remote Matrix homeserver domain.</p>
@@ -1725,16 +1725,16 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     value={mediaSearch}
                     onChange={(e) => setMediaSearch(e.target.value)}
                     placeholder={t.searchMedia}
-                    className="w-full bg-slate-950/60 border border-white/5 hover:border-amber-500/30 focus:border-amber-500/80 rounded-lg py-2 px-4 text-sm font-sans text-gray-200 outline-none transition-all duration-300"
+                    className="w-full bg-black/40 border border-white/5 hover:border-amber-500/30 focus:border-amber-500/80 rounded-lg py-2 px-4 text-sm font-sans text-gray-200 outline-none transition-all duration-300"
                   />
                 </div>
               </div>
 
-              <div className="bg-slate-900/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
+              <div className="bg-black/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-left border-collapse">
                     <thead>
-                      <tr className="border-b border-white/5 bg-slate-950/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
+                      <tr className="border-b border-white/5 bg-black/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
                         <th className="py-3 px-4 text-center w-14">#</th>
                         <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.fileName}</th>
                         <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>MXC ID</th>
@@ -1835,11 +1835,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             </div>
 
             {/* Tokens table/list */}
-            <div className="bg-slate-900/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
+            <div className="bg-black/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-white/5 bg-slate-950/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
+                    <tr className="border-b border-white/5 bg-black/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
                       <th className="py-3 px-4 text-center w-14">#</th>
                       <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.tokenLabel}</th>
                       <th className="py-3 px-4 text-center">{t.usesAllowed}</th>
@@ -1946,7 +1946,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none font-mono transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     />
                   </div>
@@ -1964,7 +1964,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none font-mono transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     />
                   </div>
@@ -1982,7 +1982,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none font-mono transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     />
                   </div>
@@ -2000,7 +2000,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none font-mono transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     />
                   </div>
@@ -2018,7 +2018,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none font-mono transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     />
                   </div>
@@ -2034,7 +2034,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border rounded-lg p-2.5 outline-none transition-colors duration-200 ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                          : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                       }`}
                     >
                       <option value="selfsigned">{isRtl ? 'گواهی داخلی خودامضا (پیش‌فرض)' : 'Self-Signed Certificate (Default)'}</option>
@@ -2080,7 +2080,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                             : 'bg-purple-950/20 border-purple-500/30 text-purple-200'
                           : isLightMode 
                             ? 'bg-slate-50 border-slate-200 text-slate-500 hover:border-slate-300' 
-                            : 'bg-slate-950/20 border-white/5 text-gray-500 hover:border-white/10'
+                            : 'bg-black/20 border-white/5 text-gray-500 hover:border-white/10'
                       }`}
                     >
                       <input
@@ -2292,14 +2292,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showAddUserModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-md p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-md p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="add-user-modal"
             >
               <button
@@ -2330,7 +2328,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-indigo-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
@@ -2345,13 +2343,13 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-indigo-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
 
                 <div className={`flex items-center gap-3 p-3 rounded-lg border mt-2 ${
-                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-slate-950/30 border-white/5'
+                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-black/30 border-white/5'
                 }`}>
                   <input
                     type="checkbox"
@@ -2401,14 +2399,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showReactivateModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-md p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-md p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="reactivate-modal"
             >
               <button
@@ -2446,13 +2442,13 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-emerald-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
 
                 <div className={`flex items-center gap-3 p-3 rounded-lg border mt-2 ${
-                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-slate-950/30 border-white/5'
+                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-black/30 border-white/5'
                 }`}>
                   <input
                     type="checkbox"
@@ -2505,14 +2501,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showCreateRoomModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-md p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-md p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="create-room-modal"
             >
               <button
@@ -2543,7 +2537,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border rounded-lg p-2.5 outline-none text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-850 focus:border-purple-500' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-purple-500'
+                        : 'bg-black/40 border-white/5 text-gray-200 focus:border-purple-500'
                     }`}
                   />
                 </div>
@@ -2558,7 +2552,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-850 focus:border-purple-500' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-purple-500'
+                        : 'bg-black/40 border-white/5 text-gray-200 focus:border-purple-500'
                     }`}
                   />
                 </div>
@@ -2573,13 +2567,13 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border rounded-lg p-2.5 outline-none text-xs transition-colors duration-200 resize-none ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-850 focus:border-purple-500' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-purple-500'
+                        : 'bg-black/40 border-white/5 text-gray-200 focus:border-purple-500'
                     }`}
                   />
                 </div>
 
                 <div className={`flex flex-col gap-2.5 p-3 rounded-lg border text-xs ${
-                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-slate-950/30 border-white/5'
+                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-black/30 border-white/5'
                 }`}>
                   <div className="flex items-center gap-3">
                     <input
@@ -2650,14 +2644,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showRoomMembersModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-lg p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-lg p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="room-members-modal"
             >
               <button
@@ -2685,7 +2677,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                   <div
                     key={m.mxid}
                     className={`flex justify-between items-center p-3 border rounded-lg text-sm ${
-                      isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/30 border-white/5'
+                      isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/30 border-white/5'
                     }`}
                   >
                     <div className="flex items-center gap-2">
@@ -2745,14 +2737,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showShutdownRoomModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-md p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-md p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="shutdown-room-modal"
             >
               <button
@@ -2772,7 +2762,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
               </h3>
 
               <div className={`text-xs space-y-1 p-3 rounded-lg border ${
-                isLightMode ? 'bg-red-50 border-red-100 text-red-900' : 'text-gray-400 bg-slate-950/40 border-white/5'
+                isLightMode ? 'bg-red-50 border-red-100 text-red-900' : 'text-gray-400 bg-black/40 border-white/5'
               }`}>
                 <p>Room: <span className={`font-semibold ${isLightMode ? 'text-red-700' : 'text-red-300'}`}>{showShutdownRoomModal.name}</span></p>
                 <p className="font-mono text-[10px] truncate">ID: {showShutdownRoomModal.id}</p>
@@ -2827,7 +2817,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       className={`w-full border focus:border-red-500 rounded-lg p-2.5 outline-none text-xs transition-colors duration-200 resize-none ${
                         isLightMode 
                           ? 'bg-white border-slate-300 text-slate-800' 
-                          : 'bg-slate-950/60 border-white/5 text-gray-200'
+                          : 'bg-black/40 border-white/5 text-gray-200'
                       }`}
                     />
                   </div>
@@ -2865,14 +2855,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {showCreateTokenModal && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className={`w-full max-w-md p-6 rounded-2xl shadow-2xl relative space-y-4 ${
-                isLightMode ? 'bg-slate-50 border border-slate-200' : 'bg-slate-900/95 backdrop-blur-2xl border border-white/10'
-              }`}
+              className="w-full max-w-md p-6 rounded-2xl relative space-y-4 spatial-glass"
               id="create-token-modal"
             >
               <button
@@ -2902,7 +2890,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-emerald-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
@@ -2917,7 +2905,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-emerald-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
@@ -2931,7 +2919,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     className={`w-full border focus:border-emerald-500 rounded-lg p-2.5 outline-none font-mono text-xs transition-colors duration-200 ${
                       isLightMode 
                         ? 'bg-white border-slate-300 text-slate-800' 
-                        : 'bg-slate-950/60 border-white/5 text-gray-200'
+                        : 'bg-black/40 border-white/5 text-gray-200'
                     }`}
                   />
                 </div>
@@ -2968,7 +2956,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {selectedUserMxid && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.96, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -2979,7 +2967,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             >
               {/* Header */}
               <div className={`flex items-center justify-between p-5 border-b ${
-                isLightMode ? 'border-slate-200 bg-slate-100/70' : 'border-white/5 bg-slate-950/20'
+                isLightMode ? 'border-slate-200 bg-slate-100/70' : 'border-white/5 bg-black/20'
               }`}>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg">
@@ -3024,7 +3012,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                   
                   {/* Left Sidebar Tabs */}
                   <div className={`w-full md:w-56 border-r p-3 flex flex-row md:flex-col gap-1 overflow-x-auto md:overflow-x-visible md:overflow-y-auto shrink-0 select-none ${
-                    isLightMode ? 'bg-slate-100/50 border-slate-200' : 'bg-slate-950/20 border-white/5'
+                    isLightMode ? 'bg-slate-100/50 border-slate-200' : 'bg-black/20 border-white/5'
                   }`}>
                     <button
                       onClick={() => setActiveUserDetailTab('user')}
@@ -3175,7 +3163,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                        <div className="space-y-6">
                         {/* Meta info header card */}
                         <div className={`p-5 rounded-xl border space-y-3 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/30 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/30 border-white/5'
                         }`}>
                           <h4 className="text-xs text-indigo-400 font-mono font-bold uppercase tracking-wider">
                             {isRtl ? 'شناسنامه کاربر ماتریکس' : 'Matrix Core Identity Card'}
@@ -3210,7 +3198,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             {/* Suspended flag */}
                             <div className={`p-4 border rounded-xl flex items-start gap-3 ${
-                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                             }`}>
                               <input
                                 type="checkbox"
@@ -3228,7 +3216,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                             {/* Shadow Banned flag */}
                             <div className={`p-4 border rounded-xl flex items-start gap-3 ${
-                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                             }`}>
                               <input
                                 type="checkbox"
@@ -3246,7 +3234,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                             {/* Locked flag */}
                             <div className={`p-4 border rounded-xl flex items-start gap-3 ${
-                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                             }`}>
                               <input
                                 type="checkbox"
@@ -3264,7 +3252,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                             {/* Server Administrator flag */}
                             <div className={`p-4 border rounded-xl flex items-start gap-3 ${
-                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                             }`}>
                               <input
                                 type="checkbox"
@@ -3285,7 +3273,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                             {/* Erased flag */}
                             <div className={`p-4 border rounded-xl flex items-start gap-3 ${
-                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                             }`}>
                               <input
                                 type="checkbox"
@@ -3305,7 +3293,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
                         {/* Password resets */}
                         <div className={`p-5 rounded-xl border space-y-4 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <h4 className="text-xs text-red-400 font-semibold uppercase tracking-wider flex items-center gap-1.5">
                             <Lock className="h-4 w-4" />
@@ -3323,7 +3311,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                               className={`flex-1 border rounded-lg p-2.5 outline-none text-xs font-mono transition-colors ${
                                 isLightMode 
                                   ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' 
-                                  : 'bg-slate-950/50 border-white/10 text-gray-200 focus:border-indigo-500'
+                                  : 'bg-black/40 border-white/10 text-gray-200 focus:border-indigo-500'
                               }`}
                             />
                             <button
@@ -3361,7 +3349,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                                 onChange={(e) => setNewEmail(e.target.value)}
                                 placeholder="Add email address"
                                 className={`flex-1 border rounded-lg p-2.5 outline-none text-xs ${
-                                  isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-slate-950/50 border-white/10 text-gray-200'
+                                  isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-black/40 border-white/10 text-gray-200'
                                 }`}
                               />
                               <button
@@ -3407,7 +3395,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                                 onChange={(e) => setNewPhone(e.target.value)}
                                 placeholder="Add phone (e.g. +989123456789)"
                                 className={`flex-1 border rounded-lg p-2.5 outline-none text-xs font-mono ${
-                                  isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-slate-950/50 border-white/10 text-gray-200'
+                                  isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-black/40 border-white/10 text-gray-200'
                                 }`}
                               />
                               <button
@@ -3445,7 +3433,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     {activeUserDetailTab === 'sso' && (
                       <div className="space-y-4">
                         <div className={`p-5 rounded-xl border space-y-4 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <h4 className="text-xs text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                             <Network className="h-4 w-4" />
@@ -3486,12 +3474,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           <span>Active Client Devices & Matrix Sessions</span>
                         </h4>
                         <div className={`border rounded-xl overflow-hidden ${
-                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <table className="w-full text-left text-xs font-mono">
                             <thead>
                               <tr className={`${
-                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-slate-950/40 text-gray-400 border-b border-white/5'
+                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-black/40 text-gray-400 border-b border-white/5'
                               }`}>
                                 <th className="p-3">Device ID</th>
                                 <th className="p-3">Display Name</th>
@@ -3541,12 +3529,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           <span>Joined Room Memberships & Moderation</span>
                         </h4>
                         <div className={`border rounded-xl overflow-hidden ${
-                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <table className="w-full text-left text-xs font-mono">
                             <thead>
                               <tr className={`${
-                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-slate-950/40 text-gray-400 border-b border-white/5'
+                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-black/40 text-gray-400 border-b border-white/5'
                               }`}>
                                 <th className="p-3">Room Name</th>
                                 <th className="p-3">Room ID</th>
@@ -3606,12 +3594,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           <span>Uploaded Media Cache Assets</span>
                         </h4>
                         <div className={`border rounded-xl overflow-hidden ${
-                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'border-slate-200 bg-white shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <table className="w-full text-left text-xs font-mono">
                             <thead>
                               <tr className={`${
-                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-slate-950/40 text-gray-400 border-b border-white/5'
+                                isLightMode ? 'bg-slate-100/80 text-slate-600 border-b border-slate-200' : 'bg-black/40 text-gray-400 border-b border-white/5'
                               }`}>
                                 <th className="p-3">File Name</th>
                                 <th className="p-3">Media ID</th>
@@ -3667,7 +3655,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     {activeUserDetailTab === 'pushers' && (
                       <div className="space-y-4">
                         <div className={`p-5 rounded-xl border space-y-4 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <h4 className="text-xs text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                             <Zap className="h-4 w-4" />
@@ -3706,7 +3694,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     {activeUserDetailTab === 'limits' && (
                       <div className="space-y-4">
                         <form onSubmit={handleSaveRateLimits} className={`p-5 rounded-xl border space-y-4 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <h4 className="text-xs text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                             <Sliders className="h-4 w-4" />
@@ -3724,7 +3712,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                                 value={userRateLimits.perSecond}
                                 onChange={(e) => setUserRateLimits(prev => ({ ...prev, perSecond: e.target.value }))}
                                 className={`w-full border rounded-lg p-2.5 outline-none font-mono text-xs transition-colors ${
-                                  isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                                  isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                                 }`}
                               />
                             </div>
@@ -3735,7 +3723,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                                 value={userRateLimits.burstCount}
                                 onChange={(e) => setUserRateLimits(prev => ({ ...prev, burstCount: e.target.value }))}
                                 className={`w-full border rounded-lg p-2.5 outline-none font-mono text-xs transition-colors ${
-                                  isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                                  isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                                 }`}
                               />
                             </div>
@@ -3756,7 +3744,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     {activeUserDetailTab === 'account' && (
                       <div className="space-y-4">
                         <form onSubmit={handleSaveAccountData} className={`p-5 rounded-xl border space-y-4 ${
-                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-slate-950/20 border-white/5'
+                          isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/20 border-white/5'
                         }`}>
                           <h4 className="text-xs text-indigo-400 font-bold uppercase tracking-wider flex items-center gap-1.5">
                             <FileText className="h-4 w-4" />
@@ -3770,7 +3758,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                             onChange={(e) => setUserAccountDataText(e.target.value)}
                             rows={8}
                             className={`w-full border rounded-lg p-3 outline-none font-mono text-xs leading-relaxed transition-colors ${
-                              isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-slate-950/60 border-white/5 text-gray-200 focus:border-indigo-500'
+                              isLightMode ? 'bg-white border-slate-300 text-slate-800 focus:border-indigo-500' : 'bg-black/40 border-white/5 text-gray-200 focus:border-indigo-500'
                             }`}
                             placeholder="{}"
                           />
@@ -3802,7 +3790,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           ) : (
                             selectedUserDetails.memberships.map((m: any) => (
                               <div key={m.roomId} className={`flex justify-between items-center p-3.5 rounded-xl border transition-all duration-200 ${
-                                isLightMode ? 'bg-white border-slate-200 hover:border-indigo-500/50 shadow-sm' : 'bg-slate-950/30 border-white/5 hover:border-indigo-500/30'
+                                isLightMode ? 'bg-white border-slate-200 hover:border-indigo-500/50 shadow-sm' : 'bg-black/30 border-white/5 hover:border-indigo-500/30'
                               }`}>
                                 <div>
                                   <span className={`block text-xs font-semibold font-sans ${isLightMode ? 'text-slate-800' : 'text-gray-200'}`}>{m.roomName}</span>
@@ -3839,7 +3827,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
       {/* ========================================== */}
       <AnimatePresence>
         {activeRoomChatId && (
-          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-slate-950/40 backdrop-blur-sm">
+          <div className="fixed inset-0 z-[60] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
             <motion.div
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
@@ -3850,7 +3838,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             >
               {/* Header */}
               <div className={`flex items-center justify-between p-5 border-b ${
-                isLightMode ? 'border-slate-200 bg-slate-100/70' : 'border-white/5 bg-slate-950/20'
+                isLightMode ? 'border-slate-200 bg-slate-100/70' : 'border-white/5 bg-black/20'
               }`}>
                 <div className="flex items-center gap-3">
                   <div className="p-2 bg-indigo-600/10 text-indigo-400 rounded-lg">
@@ -3930,7 +3918,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
 
               {/* Chat bottom bar input form */}
               <form onSubmit={handleSendChatMessage} className={`p-4 border-t flex gap-2 ${
-                isLightMode ? 'border-slate-200 bg-slate-50' : 'border-white/5 bg-slate-950/20'
+                isLightMode ? 'border-slate-200 bg-slate-50' : 'border-white/5 bg-black/20'
               }`}>
                 <input
                   type="text"
@@ -3938,7 +3926,7 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                   onChange={(e) => setNewRoomChatMessageText(e.target.value)}
                   placeholder={isRtl ? 'پیامی بنویسید...' : 'Type a simulation response message...'}
                   className={`flex-1 border rounded-xl p-3 outline-none text-xs focus:border-indigo-500 transition-colors ${
-                    isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-slate-950/50 border-white/10 text-gray-200'
+                    isLightMode ? 'bg-white border-slate-300 text-slate-800' : 'bg-black/40 border-white/10 text-gray-200'
                   }`}
                 />
                 <button
