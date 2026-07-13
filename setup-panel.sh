@@ -118,8 +118,8 @@ done
 log_step "Updating local package list..."
 apt-get update -y
 
-log_step "Installing general system tools (git, curl, build-essential)..."
-apt-get install -y git curl build-essential
+log_step "Installing general system tools (git, curl, build-essential, python3, pip, venv)..."
+apt-get install -y git curl build-essential python3 python3-pip python3-venv python3-dev
 
 # Node.js and NPM detection and installation
 if ! command -v node &> /dev/null || [ $(node -v | cut -d. -f1 | tr -d 'v') -lt 20 ]; then
@@ -316,7 +316,10 @@ cat <<EOF > "$INSTALL_DIR/sandbox/db/panel_data.json"
     "requireTls": true
   }
 }
-EOF
+
+# Create real database directory and copy panel data
+mkdir -p "$INSTALL_DIR/db"
+cp "$INSTALL_DIR/sandbox/db/panel_data.json" "$INSTALL_DIR/db/panel_data.json"
 
 # Pre-populate basic sandbox configs
 mkdir -p "$INSTALL_DIR/sandbox/etc/matrix-synapse"
@@ -341,11 +344,15 @@ EOF
 # Create .env.example values if needed, and set up our custom runtime .env file
 cat <<EOF > "$INSTALL_DIR/.env"
 PORT=$PANEL_PORT
-NODE_ENV=production
 EOF
 
-log_step "Compiling Panel assets (Vite frontend + esbuild server production bundle)..."
-npm run build
+log_step "Setting up Python 3 virtual environment and dependencies..."
+python3 -m venv "$INSTALL_DIR/venv"
+"$INSTALL_DIR/venv/bin/pip" install --upgrade pip
+"$INSTALL_DIR/venv/bin/pip" install -r "$INSTALL_DIR/requirements.txt"
+
+log_step "Compiling Panel frontend assets via Vite..."
+npx vite build
 
 # ------------------------------------------------------------------------------
 # 5. Systemd Service Deployment
@@ -362,9 +369,9 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=$INSTALL_DIR
-ExecStart=/usr/bin/node dist/server.cjs
+ExecStart=$INSTALL_DIR/venv/bin/python3 server.py
 Restart=on-failure
-Environment=NODE_ENV=production PORT=$PANEL_PORT
+Environment=PORT=$PANEL_PORT
 
 [Install]
 WantedBy=multi-user.target
