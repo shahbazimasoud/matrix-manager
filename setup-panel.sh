@@ -122,9 +122,9 @@ log_step "Installing general system tools (git, curl, build-essential)..."
 apt-get install -y git curl build-essential
 
 # Node.js and NPM detection and installation
-if ! command -v node &> /dev/null || [ $(node -v | cut -d. -f1 | tr -d 'v') -lt 18 ]; then
-  log_step "Installing Node.js 18 LTS repository..."
-  curl -fsSL https://deb.nodesource.com/setup_18.x | bash -
+if ! command -v node &> /dev/null || [ $(node -v | cut -d. -f1 | tr -d 'v') -lt 20 ]; then
+  log_step "Installing Node.js 22 LTS repository (NodeSource)..."
+  curl -fsSL https://deb.nodesource.com/setup_22.x | bash -
   apt-get install -y nodejs
 else
   log_info "Node.js is already installed ($(node -v)). Skipping installation."
@@ -134,15 +134,60 @@ fi
 # 3. Code Checkout & Directory Setup
 # ------------------------------------------------------------------------------
 if [ "$(pwd)" != "$INSTALL_DIR" ]; then
-  log_step "Cloning Matrix Manager repository into $INSTALL_DIR..."
+  log_step "Cloning or downloading Matrix Manager repository into $INSTALL_DIR..."
   if [ -d "$INSTALL_DIR/.git" ]; then
     log_info "Git repository found. Pulling latest code changes..."
     cd "$INSTALL_DIR"
-    git fetch --all
-    git reset --hard origin/master || git reset --hard origin/main
+    # Ensure git commands don't hang indefinitely by setting transfer timeouts
+    if ! git -c network.maxSubmissions=1 -c network.lowSpeedLimit=1000 -c network.lowSpeedTime=30 fetch --all; then
+      log_warning "Git fetch failed. Trying fallback pull via proxy..."
+      git remote set-url origin https://mirror.ghproxy.com/https://github.com/shahbazimasoud/matrix-manager.git
+      git fetch --all || true
+    fi
+    git reset --hard origin/master || git reset --hard origin/main || log_warning "Failed to hard reset, proceeding anyway..."
   else
     rm -rf "$INSTALL_DIR"/*
-    git clone https://github.com/shahbazimasoud/matrix-manager.git "$INSTALL_DIR"
+    
+    CLONE_SUCCESS=false
+    
+    # Try 1: Direct Git Clone
+    log_info "Attempt 1: Direct git clone from GitHub..."
+    if git -c network.maxSubmissions=1 -c network.lowSpeedLimit=1000 -c network.lowSpeedTime=30 clone https://github.com/shahbazimasoud/matrix-manager.git "$INSTALL_DIR"; then
+      CLONE_SUCCESS=true
+    fi
+    
+    # Try 2: Git Clone via Mirror/Proxy (e.g. ghproxy)
+    if [ "$CLONE_SUCCESS" = false ]; then
+      log_warning "Direct git clone timed out or failed. Attempt 2: Cloning via GitHub Mirror Proxy..."
+      if git -c network.maxSubmissions=1 -c network.lowSpeedLimit=1000 -c network.lowSpeedTime=30 clone https://mirror.ghproxy.com/https://github.com/shahbazimasoud/matrix-manager.git "$INSTALL_DIR"; then
+        CLONE_SUCCESS=true
+      fi
+    fi
+    
+    # Try 3: Direct ZIP Download + Extraction
+    if [ "$CLONE_SUCCESS" = false ]; then
+      log_warning "Cloning via mirror failed. Attempt 3: Downloading repository ZIP directly..."
+      # Install unzip if not present
+      apt-get install -y unzip || true
+      rm -f /tmp/matrix-manager.zip
+      
+      if curl -f -sSL --connect-timeout 20 --max-time 120 -o /tmp/matrix-manager.zip https://github.com/shahbazimasoud/matrix-manager/archive/refs/heads/master.zip || \
+         curl -f -sSL --connect-timeout 20 --max-time 120 -o /tmp/matrix-manager.zip https://mirror.ghproxy.com/https://github.com/shahbazimasoud/matrix-manager/archive/refs/heads/master.zip; then
+        log_info "ZIP downloaded successfully. Extracting to $INSTALL_DIR..."
+        unzip -q -o /tmp/matrix-manager.zip -d /tmp/matrix-extracted
+        # The zip extracts into matrix-manager-master/ folder inside /tmp/matrix-extracted
+        mv /tmp/matrix-extracted/matrix-manager-master/* "$INSTALL_DIR/" || cp -r /tmp/matrix-extracted/matrix-manager-master/* "$INSTALL_DIR/" || true
+        rm -rf /tmp/matrix-extracted /tmp/matrix-manager.zip
+        CLONE_SUCCESS=true
+      fi
+    fi
+    
+    if [ "$CLONE_SUCCESS" = false ]; then
+      log_error "All methods to retrieve the repository failed (direct clone, proxy clone, ZIP download)."
+      log_error "Please check your internet connection, proxy settings, or run this script from inside the cloned directory."
+      exit 1
+    fi
+    
     cd "$INSTALL_DIR"
   fi
 fi
