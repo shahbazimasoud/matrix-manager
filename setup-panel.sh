@@ -429,12 +429,12 @@ systemctl restart matrix-manager
 # 5.5 Nginx Routing Integration & Conflict Resolution
 # ------------------------------------------------------------------------------
 if [ -d "/etc/nginx" ]; then
-  log_step "Integrating Matrix Manager with Nginx proxy & resolving default server conflicts..."
+  log_step "Integrating Matrix Manager with Nginx proxy..."
   
-  # Ensure Nginx default site is disabled to prevent "Welcome to nginx!" hijacking on port 80
-  if [ -f "/etc/nginx/sites-enabled/default" ]; then
-    log_info "Removing default Nginx site link to prevent 'Welcome to nginx!' page hijack..."
-    rm -f "/etc/nginx/sites-enabled/default"
+  # Ensure the default Nginx configuration is restored/kept active so other domains on the server continue working
+  if [ -f "/etc/nginx/sites-available/default" ] && [ ! -f "/etc/nginx/sites-enabled/default" ]; then
+    log_info "Restoring default Nginx site symlink to prevent breaking other domains on this server..."
+    ln -sf "/etc/nginx/sites-available/default" "/etc/nginx/sites-enabled/default"
   fi
 
   # Create an Nginx site file for the admin panel to allow proxying PANEL_DOMAIN to PANEL_PORT

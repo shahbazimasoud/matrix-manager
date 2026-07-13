@@ -1209,19 +1209,31 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
   return (
     <div className={`space-y-6 ${isRtl ? 'rtl' : 'ltr'}`} id="ketesa-container">
       {/* Tab Navigation Dock */}
-      <div className="flex flex-wrap gap-2 p-1.5 bg-black/40 backdrop-blur-md rounded-xl border border-white/5 max-w-max">
+      <div className={`flex flex-wrap gap-2 p-1.5 rounded-xl border max-w-max transition-all duration-300 ${
+        isLightMode 
+          ? 'bg-slate-100 border-slate-200' 
+          : 'bg-black/40 backdrop-blur-md border-white/5'
+      }`}>
         <button
           onClick={() => setActiveTab('users')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
             activeTab === 'users'
-              ? 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 text-indigo-200 shadow-md'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+              ? isLightMode
+                ? 'bg-indigo-50 border border-indigo-200 text-indigo-700 shadow-sm'
+                : 'bg-gradient-to-r from-indigo-500/20 to-purple-500/20 border border-indigo-500/30 text-indigo-200 shadow-md'
+              : isLightMode
+                ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 border border-transparent'
+                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
           }`}
           id="tab-users-btn"
         >
           <Users className="h-4 w-4" />
           <span>{t.tabUsers}</span>
-          <span className="text-[10px] px-1.5 py-0.5 bg-slate-800 rounded-full font-mono text-indigo-300">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+            isLightMode 
+              ? 'bg-indigo-100 text-indigo-700 font-bold' 
+              : 'bg-slate-800 text-indigo-300'
+          }`}>
             {users.length}
           </span>
         </button>
@@ -1230,14 +1242,22 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
           onClick={() => setActiveTab('rooms')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
             activeTab === 'rooms'
-              ? 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-200 shadow-md'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+              ? isLightMode
+                ? 'bg-purple-50 border border-purple-200 text-purple-700 shadow-sm'
+                : 'bg-gradient-to-r from-purple-500/20 to-pink-500/20 border border-purple-500/30 text-purple-200 shadow-md'
+              : isLightMode
+                ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 border border-transparent'
+                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
           }`}
           id="tab-rooms-btn"
         >
           <Layers className="h-4 w-4" />
           <span>{t.tabRooms}</span>
-          <span className="text-[10px] px-1.5 py-0.5 bg-slate-800 rounded-full font-mono text-purple-300">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+            isLightMode 
+              ? 'bg-purple-100 text-purple-700 font-bold' 
+              : 'bg-slate-800 text-purple-300'
+          }`}>
             {rooms.length}
           </span>
         </button>
@@ -1246,14 +1266,22 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
           onClick={() => setActiveTab('media')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
             activeTab === 'media'
-              ? 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-200 shadow-md'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+              ? isLightMode
+                ? 'bg-amber-50 border border-amber-200 text-amber-700 shadow-sm'
+                : 'bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/30 text-amber-200 shadow-md'
+              : isLightMode
+                ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 border border-transparent'
+                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
           }`}
           id="tab-media-btn"
         >
           <HardDrive className="h-4 w-4" />
           <span>{t.tabMedia}</span>
-          <span className="text-[10px] px-1.5 py-0.5 bg-slate-800 rounded-full font-mono text-amber-300">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+            isLightMode 
+              ? 'bg-amber-100 text-amber-700 font-bold' 
+              : 'bg-slate-800 text-amber-300'
+          }`}>
             {totalCachedSizeMB} MB
           </span>
         </button>
@@ -1262,14 +1290,22 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
           onClick={() => setActiveTab('tokens')}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
             activeTab === 'tokens'
-              ? 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-200 shadow-md'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+              ? isLightMode
+                ? 'bg-emerald-50 border border-emerald-200 text-emerald-700 shadow-sm'
+                : 'bg-gradient-to-r from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 text-emerald-200 shadow-md'
+              : isLightMode
+                ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 border border-transparent'
+                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
           }`}
           id="tab-tokens-btn"
         >
           <Key className="h-4 w-4" />
           <span>{t.tabTokens}</span>
-          <span className="text-[10px] px-1.5 py-0.5 bg-slate-800 rounded-full font-mono text-emerald-300">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+            isLightMode 
+              ? 'bg-emerald-100 text-emerald-700 font-bold' 
+              : 'bg-slate-800 text-emerald-300'
+          }`}>
             {tokens.length}
           </span>
         </button>
@@ -1281,14 +1317,22 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
           }}
           className={`flex items-center gap-2 px-4 py-2.5 rounded-lg text-sm font-medium transition-all duration-300 ${
             activeTab === 'installer'
-              ? 'bg-gradient-to-r from-red-500/20 to-amber-500/20 border border-red-500/30 text-red-200 shadow-md'
-              : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
+              ? isLightMode
+                ? 'bg-rose-50 border border-rose-200 text-rose-700 shadow-sm'
+                : 'bg-gradient-to-r from-red-500/20 to-amber-500/20 border border-red-500/30 text-red-200 shadow-md'
+              : isLightMode
+                ? 'text-slate-500 hover:text-slate-800 hover:bg-slate-200/50 border border-transparent'
+                : 'text-gray-400 hover:text-gray-200 hover:bg-white/5 border border-transparent'
           }`}
           id="tab-installer-btn"
         >
           <Cpu className="h-4 w-4" />
           <span>{t.tabInstaller || 'Stack Installer'}</span>
-          <span className="text-[10px] px-1.5 py-0.5 bg-slate-800 rounded-full font-mono text-rose-400">
+          <span className={`text-[10px] px-1.5 py-0.5 rounded-full font-mono transition-colors duration-300 ${
+            isLightMode 
+              ? 'bg-rose-100 text-rose-700 font-bold' 
+              : 'bg-slate-800 text-rose-400'
+          }`}>
             v1.12
           </span>
         </button>
@@ -1306,7 +1350,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             className="space-y-4"
           >
             {/* Search, Filter & Actions rail */}
-            <div className="flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center bg-black/25 p-4 rounded-xl border border-white/5">
+            <div className={`flex flex-col md:flex-row gap-3 justify-between items-stretch md:items-center p-4 rounded-xl border transition-all duration-300 ${
+              isLightMode 
+                ? 'bg-white border-slate-200 shadow-sm' 
+                : 'bg-black/25 border-white/5'
+            }`}>
               <div className="flex flex-1 flex-wrap items-center gap-3">
                 <div className="relative flex-1 min-w-[240px]">
                   <Search className={`absolute top-3 ${isRtl ? 'left-3' : 'right-3'} h-4 w-4 text-gray-500`} />
@@ -1315,19 +1363,29 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                     value={userSearch}
                     onChange={(e) => setUserSearch(e.target.value)}
                     placeholder={t.searchUsers}
-                    className="w-full bg-black/40 border border-white/5 hover:border-indigo-500/30 focus:border-indigo-500/80 rounded-lg py-2 px-4 text-sm font-mono text-gray-200 outline-none transition-all duration-300"
+                    className={`w-full border rounded-lg py-2 px-4 text-sm font-mono outline-none transition-all duration-300 ${
+                      isLightMode
+                        ? 'bg-slate-50 border-slate-200 hover:border-indigo-500/50 focus:border-indigo-500 text-slate-800 placeholder-slate-400'
+                        : 'bg-black/40 border-white/5 hover:border-indigo-500/30 focus:border-indigo-500/80 text-gray-200 placeholder-gray-500'
+                    }`}
                   />
                 </div>
 
-                <div className="flex p-0.5 bg-black/40 rounded-lg border border-white/5 text-xs font-medium">
+                <div className={`flex p-0.5 rounded-lg border text-xs font-medium transition-all duration-300 ${
+                  isLightMode ? 'bg-slate-100 border-slate-200' : 'bg-black/40 border-white/5'
+                }`}>
                   {(['all', 'admins', 'active', 'deactivated'] as const).map(f => (
                     <button
                       key={f}
                       onClick={() => setUserFilter(f)}
                       className={`px-3 py-1.5 rounded-md transition-all duration-300 ${
                         userFilter === f 
-                          ? 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20' 
-                          : 'text-gray-400 hover:text-gray-200'
+                          ? isLightMode
+                            ? 'bg-white text-indigo-600 border border-indigo-100 shadow-sm'
+                            : 'bg-indigo-500/10 text-indigo-300 border border-indigo-500/20' 
+                          : isLightMode
+                            ? 'text-slate-500 hover:text-slate-800'
+                            : 'text-gray-400 hover:text-gray-200'
                       }`}
                     >
                       {f === 'all' && t.allUsers}
@@ -1352,11 +1410,17 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
             </div>
 
             {/* Users Table */}
-            <div className="bg-black/30 backdrop-blur-md rounded-xl border border-white/5 overflow-hidden">
+            <div className={`rounded-xl border overflow-hidden transition-all duration-300 ${
+              isLightMode ? 'bg-white border-slate-200 shadow-sm' : 'bg-black/30 backdrop-blur-md border-white/5'
+            }`}>
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b border-white/5 bg-black/30 text-gray-400 text-xs uppercase tracking-wider font-mono">
+                    <tr className={`border-b text-xs uppercase tracking-wider font-mono ${
+                      isLightMode 
+                        ? 'border-slate-100 bg-slate-50/80 text-slate-500' 
+                        : 'border-white/5 bg-black/30 text-gray-400'
+                    }`}>
                       <th className="py-3 px-4 text-center w-14">#</th>
                       <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.mxidLabel}</th>
                       <th className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>{t.displayNameLabel}</th>
@@ -1365,31 +1429,39 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                       <th className="py-3 px-4 text-center w-40">Actions</th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-white/5 text-sm font-medium">
+                  <tbody className={`text-sm font-medium ${
+                    isLightMode ? 'divide-y divide-slate-100 text-slate-700' : 'divide-y divide-white/5 text-gray-200'
+                  }`}>
                     {filteredUsers.length === 0 ? (
                       <tr>
-                        <td colSpan={6} className="py-10 text-center text-gray-500 font-mono">
+                        <td colSpan={6} className={`py-10 text-center font-mono ${isLightMode ? 'text-slate-400' : 'text-gray-500'}`}>
                           No Matrix users matched your filter criteria.
                         </td>
                       </tr>
                     ) : (
                       filteredUsers.map((u, i) => (
-                        <tr key={u.mxid} className="hover:bg-white/5 transition-all duration-200">
-                          <td className="py-3 px-4 text-center font-mono text-gray-500">{i + 1}</td>
-                          <td className={`py-3 px-4 text-gray-200 font-mono ${isRtl ? 'text-right' : 'text-left'}`}>{u.mxid}</td>
+                        <tr key={u.mxid} className={`transition-all duration-200 ${
+                          isLightMode ? 'hover:bg-slate-50/50' : 'hover:bg-white/5'
+                        }`}>
+                          <td className={`py-3 px-4 text-center font-mono ${isLightMode ? 'text-slate-400' : 'text-gray-500'}`}>{i + 1}</td>
+                          <td className={`py-3 px-4 font-mono ${isLightMode ? 'text-slate-700' : 'text-gray-200'} ${isRtl ? 'text-right' : 'text-left'}`}>{u.mxid}</td>
                           <td className={`py-3 px-4 ${isRtl ? 'text-right' : 'text-left'}`}>
                             <div className="flex items-center gap-2">
                               {u.avatarUrl && (
-                                <img src={u.avatarUrl} alt="" className="h-6 w-6 rounded-full border border-white/10" referrerPolicy="no-referrer" />
+                                <img src={u.avatarUrl} alt="" className={`h-6 w-6 rounded-full border ${isLightMode ? 'border-slate-200' : 'border-white/10'}`} referrerPolicy="no-referrer" />
                               )}
-                              <span className="text-gray-300 font-sans">{u.displayName || u.mxid.split(':')[0].replace('@', '')}</span>
+                              <span className={`font-sans ${isLightMode ? 'text-slate-800' : 'text-gray-300'}`}>{u.displayName || u.mxid.split(':')[0].replace('@', '')}</span>
                             </div>
                           </td>
                           <td className="py-3 px-4 text-center">
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono font-medium ${
                               u.isDeactivated 
-                                ? 'bg-red-500/10 text-red-400 border border-red-500/20' 
-                                : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
+                                ? isLightMode
+                                  ? 'bg-red-50 text-red-600 border border-red-100'
+                                  : 'bg-red-500/10 text-red-400 border border-red-500/20' 
+                                : isLightMode
+                                  ? 'bg-emerald-50 text-emerald-600 border border-emerald-100'
+                                  : 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20'
                             }`}>
                               {u.isDeactivated ? t.userStatusDeactivated : t.userStatusActive}
                             </span>
@@ -1397,8 +1469,12 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                           <td className="py-3 px-4 text-center">
                             <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-mono font-medium ${
                               u.isAdmin 
-                                ? 'bg-purple-500/10 text-purple-400 border border-purple-500/20' 
-                                : 'bg-slate-500/10 text-gray-400 border border-white/5'
+                                ? isLightMode
+                                  ? 'bg-purple-50 text-purple-600 border border-purple-100'
+                                  : 'bg-purple-500/10 text-purple-400 border border-purple-500/20' 
+                                : isLightMode
+                                  ? 'bg-slate-100 text-slate-500 border border-slate-200'
+                                  : 'bg-slate-500/10 text-gray-400 border border-white/5'
                             }`}>
                               {u.isAdmin ? t.userRoleAdmin : t.userRoleNormal}
                             </span>
@@ -1407,7 +1483,11 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                             <div className="flex justify-center items-center gap-2">
                               <button
                                 onClick={() => fetchUserDetails(u.mxid, true)}
-                                className="px-2.5 py-1 text-xs bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 rounded font-medium transition-all duration-200"
+                                className={`px-2.5 py-1 text-xs border rounded font-medium transition-all duration-200 ${
+                                  isLightMode
+                                    ? 'bg-indigo-50 hover:bg-indigo-100 text-indigo-600 border-indigo-200'
+                                    : 'bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30'
+                                }`}
                               >
                                 {isRtl ? 'جزئیات' : 'Details'}
                               </button>
@@ -1418,20 +1498,28 @@ export default function KetesaAdmin({ lang, authToken, currentUser, showToast, i
                                       setShowReactivateModal(u.mxid);
                                       setReactivateAdmin(u.isAdmin);
                                     }}
-                                    className="px-2.5 py-1 text-xs bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30 rounded font-medium transition-all duration-200"
+                                    className={`px-2.5 py-1 text-xs border rounded font-medium transition-all duration-200 ${
+                                      isLightMode
+                                        ? 'bg-emerald-50 hover:bg-emerald-100 text-emerald-600 border-emerald-200'
+                                        : 'bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/30'
+                                    }`}
                                   >
                                     {t.reactivateBtn.split(' ')[0]}
                                   </button>
                                 ) : (
                                   <button
                                     onClick={() => handleDeactivateUser(u.mxid)}
-                                    className="px-2.5 py-1 text-xs bg-red-600/10 hover:bg-red-600/20 text-red-400 border border-red-500/20 rounded font-medium transition-all duration-200"
+                                    className={`px-2.5 py-1 text-xs border rounded font-medium transition-all duration-200 ${
+                                      isLightMode
+                                        ? 'bg-red-50 hover:bg-red-100 text-red-600 border-red-200'
+                                        : 'bg-red-600/10 hover:bg-red-600/20 text-red-400 border border-red-500/20'
+                                    }`}
                                   >
                                     {t.deactivateBtn}
                                   </button>
                                 )
                               ) : (
-                                <span className="text-xs text-gray-500 font-mono">-</span>
+                                <span className={`text-xs font-mono ${isLightMode ? 'text-slate-400' : 'text-gray-500'}`}>-</span>
                               )}
                             </div>
                           </td>
