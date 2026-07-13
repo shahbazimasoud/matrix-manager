@@ -348,8 +348,37 @@ EOF
 
 log_step "Setting up Python 3 virtual environment and dependencies..."
 python3 -m venv "$INSTALL_DIR/venv"
-"$INSTALL_DIR/venv/bin/pip" install --upgrade pip
-"$INSTALL_DIR/venv/bin/pip" install -r "$INSTALL_DIR/requirements.txt"
+
+PIP_CMD="$INSTALL_DIR/venv/bin/pip"
+
+# Configure pip with resilient timeout and retry options
+log_info "Configuring Pip with resilient timeouts and retry settings..."
+if ! "$PIP_CMD" install --default-timeout=1000 --retries 10 --upgrade pip; then
+  log_warning "Pip upgrade timed out or failed. Proceeding with the default pip version."
+fi
+
+# Attempt standard installation first
+log_info "Attempt 1: Installing Python dependencies using standard PyPI registry with high timeout..."
+if ! "$PIP_CMD" install --default-timeout=1000 --retries 10 -r "$INSTALL_DIR/requirements.txt"; then
+  log_warning "Standard PyPI installation timed out or failed. Attempt 2: Switching to high-speed mirror registries..."
+  
+  MIRROR_SUCCESS=false
+  # Try high-speed mirrors which are highly accessible and reliable under throttled connections
+  for MIRROR in "https://pypi.tuna.tsinghua.edu.cn/simple" "https://mirrors.aliyun.com/pypi/simple"; do
+    log_info "Retrying pip installation via mirror: $MIRROR ..."
+    if "$PIP_CMD" install --default-timeout=1000 --retries 10 -i "$MIRROR" -r "$INSTALL_DIR/requirements.txt"; then
+      MIRROR_SUCCESS=true
+      log_success "Successfully installed Python dependencies using mirror: $MIRROR"
+      break
+    fi
+  done
+  
+  if [ "$MIRROR_SUCCESS" = false ]; then
+    log_error "Python dependencies installation failed even with high-speed mirror registries."
+    log_error "Please check your server's network connection, firewall rules, or DNS settings."
+    exit 1
+  fi
+fi
 
 log_step "Compiling Panel frontend assets via Vite..."
 npx vite build
