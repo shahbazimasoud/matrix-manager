@@ -61,6 +61,15 @@
   ],
   "auditLogs": [
     {
+      "id": "log-1783924568424",
+      "timestamp": "2026-07-13T06:36:08.424Z",
+      "username": "admin",
+      "action": "Console Command",
+      "target": "workers_enable",
+      "status": "success",
+      "details": "Executed system command: workers_enable"
+    },
+    {
       "id": "log-1783923562751",
       "timestamp": "2026-07-13T06:19:22.751Z",
       "username": "admin",
