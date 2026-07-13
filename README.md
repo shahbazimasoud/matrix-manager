@@ -18,7 +18,8 @@ curl -sSL https://raw.githubusercontent.com/shahbazimasoud/matrix-manager/master
 ۱. **دامنه یا IP**: اسکریپت آدرس دامنه یا آی‌پی پنل شما را می‌پرسد.
 ۲. **پورت شبکه**: پورت اجرای پنل (به صورت پیش‌فرض ۳۰۰۰) را وارد می‌کنید.
 ۳. **اطلاعات ادمین اصلی (Owner)**: نام کاربری، ایمیل و رمز عبور ادمین اولیه از شما پرسیده می‌شود.
-۴. **راه‌اندازی خودکار**: اسکریپت به طور خودکار Node.js 18+، ابزارهای کامپایل و Git را نصب کرده، دیتابیس لوکال را با رمز ادمین هش‌شده بذرپاشی (Seed) می‌کند و یک وب‌سرویس پس‌زمینه پایدار با استفاده از `systemd` ایجاد می‌نماید.
+۴. **راه‌اندازی خودکار**: اسکریپت به طور خودکار آخرین نسخه پایدار Node.js 22 LTS، ابزارهای کامپایل و Git را نصب کرده، دیتابیس لوکال را با رمز ادمین هش‌شده بذرپاشی (Seed) می‌کند و یک وب‌سرویس پس‌زمینه پایدار با استفاده از `systemd` ایجاد می‌نماید.
+۵. **تاب‌آوری شبکه (VPS ایران)**: اسکریپت مجهز به مکانیزم هوشمند ۳مرحله‌ای است که در صورت تحریم یا اختلال گیت‌هاب، به‌طور خودکار از پروکسی‌های آینه و دانلود مستقیم فایل ZIP به همراه استخراج خودکار استفاده می‌کند تا فرآیند کلون هرگز متوقف یا تایم‌اوت نشود.
 
 پس از پایان فرآیند، مشخصات دسترسی و دستورات مدیریتی با رنگ‌های متمایز در ترمینال چاپ می‌شود.
 
@@ -34,9 +35,10 @@ curl -sSL https://raw.githubusercontent.com/shahbazimasoud/matrix-manager/master
 
 ### 📋 How the Interactive Setup Works:
 1. **Interactive Prompts**: It asks you for the Panel's domain or public IP, access port, and your target Administrator (**Owner**) credentials (**Username**, **Email**, and **Password**).
-2. **Auto-Dependency Installation**: Verifies and installs Node.js LTS (18+), `npm`, `git`, and other essential system compilation tools.
-3. **Secure Password Hashing**: Cryptographically hashes your specified password using `bcrypt` and pre-seeds the secure panel database (`/opt/matrix-manager/sandbox/db/panel_data.json`).
-4. **Daemon Deployment**: Creates and registers a robust `systemd` service called `matrix-manager.service` to keep the panel running persistently on system reboots.
+2. **Auto-Dependency Installation**: Verifies and installs Node.js 22 LTS (active LTS), `npm`, `git`, and other essential system compilation tools.
+3. **Network Resilience (Anti-Timeout)**: Features an automatic 3-stage fallback system (Direct clone -> Mirror proxy clone -> Direct/Proxy ZIP extraction) specifically optimized to guarantee successful setup even behind restrictive firewalls or slower networks (e.g., VPS hosts in restricted regions).
+4. **Secure Password Hashing**: Cryptographically hashes your specified password using `bcrypt` and pre-seeds the secure panel database (`/opt/matrix-manager/sandbox/db/panel_data.json`).
+5. **Daemon Deployment**: Creates and registers a robust `systemd` service called `matrix-manager.service` to keep the panel running persistently on system reboots.
 
 ---
 
